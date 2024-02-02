@@ -62,7 +62,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Platforms\Android\Resources\images\ccrelogo.png">
+      <Content Include="Platforms\Android\Resources\ccrelogo.png">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
@@ -84,5 +84,12 @@
     <ItemGroup>
       <None Include="Pages\DatiDipendente.razor" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Platforms\Android\Resources\images\" />
+      <Folder Include="wwwroot\Images\" />
+    </ItemGroup>
+
+    <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionVMSistemHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

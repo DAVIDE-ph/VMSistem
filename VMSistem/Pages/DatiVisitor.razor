@@ -1,24 +1,30 @@
 ﻿@page "/DatiVisitor"
+@using MudBlazor 
 <MudGrid Justify="Justify.Center">
     <MudItem xs="3">
-        <MudImage Src="images/ccrelogo.png" Width="250" Height="80" ObjectFit="ObjectFit.Fill" />
+        <MudImage Src="ccrelogo.png" Width="250" Height="80" ObjectFit="ObjectFit.Fill" />
     </MudItem>
 </MudGrid>
 <MudCard Style="margin-top:0px;">
-    <MudForm>
+    
         <MudCardContent>
-            
-            <MudTextField @bind-Value="nomevisitor" Label="Nome Visitatore" Immediate="true" />
+           <MudForm> 
+            <MudTextField @bind-Value="nomevisitor"  Label="Nome Visitatore" Immediate="true" />
      
             <MudTextField @bind-Value="cognomeVisitor" Immediate="true" Label="Cognome Visitatore" HtmlTag="input" @bind-ref="myRef" @onkeypress="@enter" />
-          
-            
-          
-            
+            <br/>
+            <br />
+            <MudGrid Justify="Justify.Center">
+                <MudItem>
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowRightAlt" Label="@procedi" OnClick="@next" />
+                </MudItem>
+            </MudGrid>
+
+        </MudForm>
 
 
         </MudCardContent>
-    </MudForm>
+    
 </MudCard>
 
 
@@ -26,10 +32,16 @@
 
     public string nomevisitor { get; set; }
     public string cognomeVisitor { get; set; }
+    public string procedi { get; set; }
     @inject ISnackbar snackBar;
     @inject NavigationManager navigationManager;
     ElementReference myRef = new ElementReference();
 
+    protected override void OnInitialized()
+    {
+        procedi = "Next";
+        base.OnInitialized();
+    }
     async Task Focus()
     {
         //this js snippet does `document.querySelector(myRef).focus();`
