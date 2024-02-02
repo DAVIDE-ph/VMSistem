@@ -1,0 +1,76 @@
+﻿@page "/DatiVisitor"
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="3">
+        <MudImage Src="images/ccrelogo.png" Width="250" Height="80" ObjectFit="ObjectFit.Fill" />
+    </MudItem>
+</MudGrid>
+<MudCard Style="margin-top:0px;">
+    <MudForm>
+        <MudCardContent>
+            
+            <MudTextField @bind-Value="nomevisitor" Label="Nome Visitatore" Immediate="true" />
+     
+            <MudTextField @bind-Value="cognomeVisitor" Immediate="true" Label="Cognome Visitatore" HtmlTag="input" @bind-ref="myRef" @onkeypress="@enter" />
+          
+            
+          
+            
+
+
+        </MudCardContent>
+    </MudForm>
+</MudCard>
+
+
+@code {
+
+    public string nomevisitor { get; set; }
+    public string cognomeVisitor { get; set; }
+    @inject ISnackbar snackBar;
+    @inject NavigationManager navigationManager;
+    ElementReference myRef = new ElementReference();
+
+    async Task Focus()
+    {
+        //this js snippet does `document.querySelector(myRef).focus();`
+        await myRef.FocusAsync();
+    }
+    async Task enter(KeyboardEventArgs e)
+    {
+
+        if (e.Key == "Enter" || e.Code == "Enter")
+        {
+            await Task.Delay(200);
+            next();
+            //myRef.FocusAsync();
+
+        }
+    }
+
+    private void next()
+    {
+        try
+        {
+            if(string.IsNullOrEmpty(nomevisitor))
+            {
+                snackBar.Add("Inserici Nome");
+               
+            }
+             else if (string.IsNullOrEmpty(cognomeVisitor))
+            {
+                snackBar.Add("Inserici Cognome");
+               
+            }
+            else
+            {
+                navigationManager.NavigateTo("/DatiDipendente");
+            }
+
+        }
+        catch
+        {
+            
+        }
+    }
+
+}

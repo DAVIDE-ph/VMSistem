@@ -1,0 +1,27 @@
+﻿@page "/"
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="3">
+        <MudImage Src="images/ccrelogo.png" Width="400" Height="120" ObjectFit="ObjectFit.Fill"/>
+    </MudItem>
+
+   
+    <MudGrid Justify="Justify.Center" Style="margin-top:70px;">
+        <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.AppRegistration" Label="@registerText" OnClick="@BtnClick"></MudFab>
+    </MudGrid>
+</MudGrid>
+
+@code
+{
+    @inject NavigationManager navigationManager;
+    public string registerText { get; set; }
+
+    protected override void OnInitialized()
+    {
+        registerText = "Registrati";
+    }
+
+    private void BtnClick()
+    {
+        navigationManager.NavigateTo("/PrivacyAndPolicy");
+    }
+}

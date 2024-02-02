@@ -1,0 +1,91 @@
+﻿@page "/PrivacyAndPolicy"
+<MudPaper>
+    <MudGrid Style="margin-top:25px">
+        <MudItem xs="12">
+            <MudCard>
+                <MudCardHeader>
+                    <MudText><b>@privacyheader</b></MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Align="Align.Start">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. A lacus vestibulum sed arcu non. A erat nam at lectus urna duis. Rhoncus urna neque viverra justo nec ultrices dui sapien. Blandit cursus risus at ultrices mi tempus. Nunc non blandit massa enim nec dui nunc mattis. Elementum tempus egestas sed sed risus pretium quam vulputate. Vitae auctor eu augue ut lectus arcu. Egestas erat imperdiet sed euismod. Dolor sit amet consectetur adipiscing elit ut aliquam purus sit. Ultrices eros in cursus turpis massa tincidunt. Eget felis eget nunc lobortis. Lectus arcu bibendum at varius vel pharetra vel turpis nunc. Sit amet nisl purus in mollis nunc sed. Nam aliquam sem et tortor.
+
+                        Luctus accumsan tortor posuere ac ut consequat semper viverra nam. Vel orci porta non pulvinar neque laoreet. Aliquet nibh praesent tristique magna sit amet. Pretium lectus quam id leo in. Adipiscing enim eu turpis egestas pretium aenean pharetra magna. Pellentesque pulvinar pellentesque habitant morbi tristique. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Sagittis orci a scelerisque purus semper eget duis at tellus. Diam in arcu cursus euismod. Vivamus arcu felis bibendum ut tristique et egestas. Arcu risus quis varius quam quisque id diam vel quam. Ultrices dui sapien eget mi proin sed libero enim sed. Viverra justo nec ultrices dui sapien eget mi proin. Lobortis scelerisque fermentum dui faucibus. Diam donec adipiscing tristique risus. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa eget egestas. Eu sem integer vitae justo eget magna. Accumsan sit amet nulla facilisi morbi.
+                    </MudText>
+                    <MudCollapse Expanded="@_expanded">
+                        <MudText Align="Align.Start">
+                            Fermentum posuere urna nec tincidunt praesent semper. At ultrices mi tempus imperdiet nulla malesuada pellentesque elit. Consectetur adipiscing elit ut aliquam. Faucibus purus in massa tempor nec feugiat nisl pretium. Orci nulla pellentesque dignissim enim sit amet venenatis. Amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor. A cras semper auctor neque vitae tempus quam pellentesque. Elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi. Vel pretium lectus quam id leo in. Massa eget egestas purus viverra accumsan. Proin fermentum leo vel orci porta non pulvinar. Eu facilisis sed odio morbi quis commodo odio aenean. Mi quis hendrerit dolor magna eget est lorem ipsum dolor. Ipsum suspendisse ultrices gravida dictum fusce. Nunc vel risus commodo viverra maecenas accumsan lacus. Eget mauris pharetra et ultrices neque. Volutpat lacus laoreet non curabitur gravida arcu.
+
+                            Bibendum enim facilisis gravida neque. Elementum nibh tellus molestie nunc. Vestibulum lorem sed risus ultricies tristique nulla. Parturient montes nascetur ridiculus mus mauris vitae. Tempor nec feugiat nisl pretium fusce id velit. Lorem mollis aliquam ut porttitor. Proin sed libero enim sed faucibus turpis in eu mi. Dapibus ultrices in iaculis nunc sed. Sem integer vitae justo eget. Ultricies mi eget mauris pharetra et ultrices neque ornare. Molestie nunc non blandit massa enim nec dui nunc mattis. Nec sagittis aliquam malesuada bibendum. Lacus vel facilisis volutpat est velit egestas dui. Dolor morbi non arcu risus quis.
+
+                            Molestie nunc non blandit massa enim nec. Id ornare arcu odio ut. Duis tristique sollicitudin nibh sit amet commodo. Bibendum at varius vel pharetra. Arcu non sodales neque sodales. Amet aliquam id diam maecenas ultricies mi eget mauris. Pretium quam vulputate dignissim suspendisse in est. Gravida cum sociis natoque penatibus et. Diam vel quam elementum pulvinar. Massa id neque aliquam vestibulum morbi blandit cursus risus. Interdum consectetur libero id faucibus nisl tincidunt. Nunc eget lorem dolor sed viverra ipsum nunc. Orci nulla pellentesque dignissim enim sit. Diam vel quam elementum pulvinar etiam non quam lacus. Enim facilisis gravida neque convallis a. In hendrerit gravida rutrum quisque non tellus orci ac auctor. Interdum velit euismod in pellentesque massa placerat duis ultricies.
+                        </MudText>
+                    </MudCollapse>
+                    <MudButton Variant="Variant.Text" OnClick="@ReadmoreClick">@(_expanded ? @readless : @readmore)</MudButton>
+                        
+                </MudCardContent>
+                <MudCardActions >
+                    
+                    <MudPaper Class="d-flex justify-start flex-grow-1 gap-4" Elevation="0">
+
+
+                        <MudFab Color="@Color.Error" StartIcon="@Icons.Material.Filled.Undo" Size="Size.Small" OnClick="@CancelClick"></MudFab>
+                    </MudPaper>
+
+                    <MudPaper Class="d-flex justify-end flex-grow-1 gap-4" Elevation="0">
+                        <MudCheckBox @bind-Value="@chk" Color="Color.Primary" Label="@consentotext"></MudCheckBox>
+                        
+                        <MudFab Color="@Color.Tertiary" StartIcon="@Icons.Material.Outlined.NavigateNext" Size="Size.Small" OnClick="@NextClick"></MudFab>
+                    </MudPaper>
+                    
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+
+
+
+@code {
+    public string privacyheader{ get; set; }
+    public string readmore { get; set; }
+    public string readless { get; set; }
+    bool _expanded = false;
+    bool chk = false;
+    public string consentotext{ get; set; }
+    public string errorMessage{ get; set; }
+    @inject NavigationManager navigationManager;
+    @inject ISnackbar snackbar;
+
+    protected override void OnInitialized()
+    {
+        privacyheader = "Privacy e politica";
+        readmore = "Legi di piu";
+        readless = "minimizza";
+        consentotext = "Accetto termini e condizioni";
+    }
+
+    public void ReadmoreClick()
+    {
+        _expanded = !_expanded;
+    }
+
+    public void CancelClick()
+    {
+        navigationManager.NavigateTo("/");
+    }
+    public void NextClick()
+    {
+        if(chk==true)
+        {
+            navigationManager.NavigateTo("/DatiVisitor");
+        }
+        else
+        {
+            errorMessage = "Prima di Procedere devi accetare termini e condizioni";
+            snackbar.Add(@errorMessage, Severity.Error);
+        }
+    }
+
+}
