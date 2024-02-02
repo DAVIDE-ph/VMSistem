@@ -65,12 +65,12 @@
         {
             if(string.IsNullOrEmpty(nomevisitor))
             {
-                snackBar.Add("Inserici Nome");
+                snackBar.Add("Inserici Nome", Severity.Warning);
                
             }
              else if (string.IsNullOrEmpty(cognomeVisitor))
             {
-                snackBar.Add("Inserici Cognome");
+                snackBar.Add("Inserici Cognome",Severity.Warning);
                
             }
             else

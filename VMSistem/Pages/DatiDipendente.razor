@@ -1,5 +1,5 @@
 ﻿@page "/DatiDipendente"
-@using MudBlazor
+
 
 <MudGrid Justify="Justify.Center">
     <MudItem xs="3">
@@ -28,13 +28,21 @@
 
 </MudCard>
 @code {
-    private string  value2;
+@inject ISnackbar snackBar;
+    @inject NavigationManager navigationManager;
+    public string procedi { get; set; };
+    private string value2;
     private bool resetValueOnEmptyText;
     private bool coerceText;
     private bool coerceValue;
-    private string[] Nomi ={"davide Ph","Romeo borghi","Romeo secondo","luca miari" };
-     @inject ISnackbar snackBar;
+    private string[] Nomi = { "davide Ph", "Romeo borghi", "Romeo secondo", "luca miari" };
+  
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        procedi = "Next";
+    }
     private async Task<IEnumerable<string>> Search2(string value)
     {
         // In real life use an asynchronous function for fetching data from an api.
@@ -47,6 +55,13 @@
     }
     public void next()
     {
-         
+        if (!string.IsNullOrEmpty(value2)
+        {
+            
+        }
+        else
+        {
+            snackBar.Add("Inserisci Nome", Severity.Warning);
+        }
     }
 }
