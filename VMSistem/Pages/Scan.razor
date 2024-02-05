@@ -3,13 +3,27 @@
  @using ReactorBlazorQRCodeScanner;
  @using Microsoft.Data.SqlClient;
  @using VMSistem.Class;
-<QRCodeScanner />
-@code {
+<MudOverlay @bind-Visible="isVisible" DarkBackground="true" ZIndex="9999" AutoClose="true" />
+ <MudGrid Justify="Justify.Center">
+     <MudItem>
+         <MudText><b>Si prega di scanssionare qr code</b></MudText>
+     </MudItem>
+    </MudGrid>
+    <MudGrid Justify="Justify.Center" Style="margin-top:45px;">
+        <MudItem>
+        <QRCodeScanner />
+        </MudItem>
+    </MudGrid>
     
+
+
+
+@code {
+    private bool isVisible;
     @inject ISnackbar snackBar;
     @inject NavigationManager navigationManager;
 
-     private QRCodeScannerJsInterop? _qrCodeScannerJsInterop;
+    private QRCodeScannerJsInterop? _qrCodeScannerJsInterop;
     private Action<string>? _onQrCodeScanAction;
 
     protected override async Task OnInitializedAsync()
@@ -20,8 +34,11 @@
         await _qrCodeScannerJsInterop.Init(_onQrCodeScanAction);
     }
 
-    private  void OnQrCodeScan(string code)
+    private async  void OnQrCodeScan(string code)
     {
+        isVisible = true;
+        StateHasChanged();
+        Task.Delay(2500);
         Console.WriteLine($"OnQrCodeScan {code}");
         string SQLconn1 = "Server=217.198.132.7;Database=VMSystem;TrustServerCertificate=True;User Id=sa;Password=Datovarme13@;Encrypt=False;";
         SqlConnection conn = new SqlConnection(SQLconn1);
