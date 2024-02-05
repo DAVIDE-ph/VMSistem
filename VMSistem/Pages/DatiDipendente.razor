@@ -1,5 +1,6 @@
 ﻿@page "/DatiDipendente"
-
+@using VMSistem.Class;
+@using Microsoft.Data.SqlClient;
 
 <MudGrid Justify="Justify.Center">
     <MudItem xs="3">
@@ -17,7 +18,7 @@
             <br />
             <MudGrid Justify="Justify.Center">
                 <MudItem>
-                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ArrowRightAlt" Label="Procedi" OnClick="@next" />
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Print" Label="@procedi" OnClick="@next" />
                 </MudItem>
             </MudGrid>
 
@@ -28,9 +29,9 @@
 
 </MudCard>
 @code {
-@inject ISnackbar snackBar;
+    @inject ISnackbar snackBar;
     @inject NavigationManager navigationManager;
-    public string procedi { get; set; };
+    public string procedi { get; set; }
     private string value2;
     private bool resetValueOnEmptyText;
     private bool coerceText;
@@ -41,7 +42,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        procedi = "Next";
+        procedi = "Print";
     }
     private async Task<IEnumerable<string>> Search2(string value)
     {
@@ -55,13 +56,57 @@
     }
     public void next()
     {
-        if (!string.IsNullOrEmpty(value2)
+        if (!string.IsNullOrEmpty(value2))
         {
-            
+            bool trovato=false;
+            foreach(var item in Nomi)
+            {
+                if(item==value2)
+                {
+                    trovato = true;
+                    Gval.Invisita = value2;
+                    Insert();
+                }
+            }
+            if (trovato==false)
+            {
+                snackBar.Add("Verifica nome");
+            }
+            else
+            {
+                
+            }
         }
         else
         {
-            snackBar.Add("Inserisci Nome", Severity.Warning);
+            snackBar.Add("Attenzione nome selezionato non è corretto", Severity.Warning);
+        }
+    }
+
+    private void Insert()
+    {
+        string SQLconn1 = "Server=217.198.132.7;Database=VMSystem;TrustServerCertificate=True;User Id=sa;Password=Datovarme13@;Encrypt=False;";
+        SqlConnection conn = new SqlConnection(SQLconn1);
+
+        try
+        {
+            conn.Open();
+            string s1 = "Insert into Visitors (Nome,Cognome,Invisita,Ingresso) values (@Nome,@Cognome,@Invisita,@Ingresso)";
+            SqlCommand cmd = new SqlCommand(s1, conn);
+            cmd.Parameters.AddWithValue("@Nome", Gval.Nomevisitor);
+            cmd.Parameters.AddWithValue("@Cognome", Gval.Cognomevisitor);
+            cmd.Parameters.AddWithValue("@Invisita", Gval.Invisita);
+            cmd.Parameters.AddWithValue("@Ingresso", DateTime.Now);
+            cmd.ExecuteNonQuery();
+            snackBar.Add("Attendere la stampa", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            snackBar.Add("errore" + ex.Message, Severity.Error);
+        }
+        finally
+        {
+            conn.Close();
         }
     }
 }

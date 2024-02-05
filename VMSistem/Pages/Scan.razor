@@ -1,0 +1,58 @@
+﻿@page "/Scan" 
+ @inject IJSRuntime JS;
+ @using ReactorBlazorQRCodeScanner;
+ @using Microsoft.Data.SqlClient;
+ @using VMSistem.Class;
+<QRCodeScanner />
+@code {
+    
+    @inject ISnackbar snackBar;
+    @inject NavigationManager navigationManager;
+
+     private QRCodeScannerJsInterop? _qrCodeScannerJsInterop;
+    private Action<string>? _onQrCodeScanAction;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _onQrCodeScanAction = (code) => OnQrCodeScan(code);
+
+        _qrCodeScannerJsInterop = new QRCodeScannerJsInterop(JS);
+        await _qrCodeScannerJsInterop.Init(_onQrCodeScanAction);
+    }
+
+    private  void OnQrCodeScan(string code)
+    {
+        Console.WriteLine($"OnQrCodeScan {code}");
+        string SQLconn1 = "Server=217.198.132.7;Database=VMSystem;TrustServerCertificate=True;User Id=sa;Password=Datovarme13@;Encrypt=False;";
+        SqlConnection conn = new SqlConnection(SQLconn1);
+
+        try
+        {
+            int a = Convert.ToInt32(code);
+            conn.Open();
+            string s1 = "UPDATE Visitors set Uscita=@Uscita where id =@id";
+            SqlCommand cmd = new SqlCommand(s1, conn);
+            cmd.Parameters.AddWithValue("@Uscita", DateTime.Now);
+            cmd.Parameters.AddWithValue("@id", a);
+            cmd.ExecuteNonQuery();
+            snackBar.Add("Arrivederci", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Gval.Messaggio = ex.Message;
+            snackBar.Add("Non e stato possibile leggere codice", Severity.Warning);
+        }
+        finally
+        {
+            conn.Close();
+
+            navigationManager.NavigateTo("/");
+
+            //Application.Current.MainPage = new MainPage();
+            //Application.Current.MainPage = new MainPage();
+            //await App.Current.MainPage.Navigation.PushAsync(new Esci());
+        }
+    }
+
+   
+}

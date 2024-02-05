@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using VMSistem.Class;
 <MudGrid Justify="Justify.Center">
     <MudItem xs="3">
         <MudImage Src="ccrelogo.png" Width="400" Height="120" ObjectFit="ObjectFit.Fill"/>
@@ -6,22 +7,39 @@
 
    
     <MudGrid Justify="Justify.Center" Style="margin-top:70px;">
-        <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.AppRegistration" Label="@registerText" OnClick="@BtnClick"></MudFab>
+        <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.AppRegistration" Label="@registerText" OnClick="@BtnClick" Style="width:200px"></MudFab>
+    </MudGrid>
+    <MudGrid Justify="Justify.Center" Style="margin-top:50px;">
+        <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.ExitToApp" Label="@Exitlabel" OnClick="@ExitClick" Style="width:200px"></MudFab>
     </MudGrid>
 </MudGrid>
 
 @code
 {
     @inject NavigationManager navigationManager;
+    @inject ISnackbar snackBar;
     public string registerText { get; set; }
+    public string Exitlabel { get; set; }
 
     protected override void OnInitialized()
     {
+        if(string.IsNullOrEmpty(Gval.Messaggio) || Gval.Messaggio.Length>2)
+        {
+            snackBar.Add(Gval.Messaggio, Severity.Warning);
+            Gval.Messaggio = "";
+        }
         registerText = "Registrati";
+        Exitlabel = "Esci";
     }
 
     private void BtnClick()
     {
         navigationManager.NavigateTo("/PrivacyAndPolicy");
+    }
+    private async void ExitClick()
+    {
+        navigationManager.NavigateTo("/Scan");
+        // Application.Current.MainPage = new Esci();
+        // await App.Current.MainPage.Navigation.PushAsync(new Esci());
     }
 }

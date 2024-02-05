@@ -1,5 +1,6 @@
 ﻿@page "/DatiVisitor"
 @using MudBlazor 
+@using VMSistem.Class
 <MudGrid Justify="Justify.Center">
     <MudItem xs="3">
         <MudImage Src="ccrelogo.png" Width="250" Height="80" ObjectFit="ObjectFit.Fill" />
@@ -75,6 +76,8 @@
             }
             else
             {
+                Gval.Nomevisitor = nomevisitor;
+                Gval.Cognomevisitor = cognomeVisitor;
                 navigationManager.NavigateTo("/DatiDipendente");
             }
 

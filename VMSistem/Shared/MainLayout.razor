@@ -4,16 +4,44 @@
 <MudSnackbarProvider />
 <div class="page">
     @* <div class="sidebar">
-        <NavMenu />
+    <NavMenu />
     </div> *@
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <div class="d-flex">
+            <div>
+                <MudIcon Icon="@Icons.Material.Outlined.Home" Color="Color.Primary" onclick="@Home" Size="Size.Large"></MudIcon>
+            </div>
+            <div class="ml-auto">
+                <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary" Size="Size.Large"></MudIcon>
+            </div>
         </div>
+
+
+       @*  <div class="top-50 px-4">
+            <div class="col-lg-6">
+                <MudGrid Justify="Justify.FlexEnd">
+
+                    <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary" Size="Size.Large"></MudIcon>
+                </MudGrid>
+            </div>
+            <div class="col-lg-6">
+                <MudGrid Justify="Justify.FlexStart">
+                    <MudIcon Icon="@Icons.Material.Outlined.Home" Color="Color.Primary" onclick="@Home" Size="Size.Large"></MudIcon>
+                </MudGrid>
+            </div>
+        </div> *@
+
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+@code {
+    @inject NavigationManager navigationManager;
+    public void Home()
+    {
+        navigationManager.NavigateTo("/");
+    }
+}

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 using VMSistem.Data;
+using ZXing.Net.Maui;
+using ZXing.Net.Maui.Controls;
 
 namespace VMSistem
 {
@@ -11,6 +13,7 @@ namespace VMSistem
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseBarcodeReader()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -18,6 +21,7 @@ namespace VMSistem
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddMudServices();
+           
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
