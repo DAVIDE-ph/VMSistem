@@ -36,13 +36,17 @@
     private bool resetValueOnEmptyText;
     private bool coerceText;
     private bool coerceValue;
-    private string[] Nomi = { "davide Ph", "Romeo borghi", "Romeo secondo", "luca miari" };
-  
+    private string[] Nomi;
+    public int Nemployees=0;
+
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         procedi = "Print";
+        EmployeeCount();
+        LoadEmployee();
+
     }
     private async Task<IEnumerable<string>> Search2(string value)
     {
@@ -52,6 +56,7 @@
         // if text is null or empty, don't return values (drop-down will not open)
         if (string.IsNullOrEmpty(value))
             return new string[0];
+
         return Nomi.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
     }
     public void next()
@@ -99,6 +104,7 @@
             cmd.Parameters.AddWithValue("@Ingresso", DateTime.Now);
             cmd.ExecuteNonQuery();
             snackBar.Add("Attendere la stampa", Severity.Success);
+            navigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {
@@ -109,4 +115,71 @@
             conn.Close();
         }
     }
+
+    public void EmployeeCount()
+    {
+        string SQLconn1 = "Server=217.198.132.7;Database=VMSystem;TrustServerCertificate=True;User Id=sa;Password=Datovarme13@;Encrypt=False;";
+        SqlConnection conn = new SqlConnection(SQLconn1);
+
+        try
+        {
+            conn.Open();
+            string s1 = "select count(id)  totale from employees";
+            SqlCommand cmd = new SqlCommand(s1,conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            if(rd.Read())
+            {
+                Nemployees = Convert.ToInt32(rd.GetValue(0).ToString());
+            }
+        }
+        catch (Exception ex)
+        {
+
+            snackBar.Add(ex.Message, Severity.Error);
+        }
+        finally
+        {
+            conn.Close();
+        }
+    }
+
+
+    public void LoadEmployee()
+    {
+        string SQLconn1 = "Server=217.198.132.7;Database=VMSystem;TrustServerCertificate=True;User Id=sa;Password=Datovarme13@;Encrypt=False;";
+        SqlConnection conn = new SqlConnection(SQLconn1);
+        string[] test = new string[Nemployees];
+        try
+        {
+          
+            conn.Open();
+            string s1 = "Select * from employees";
+            SqlCommand cmd = new SqlCommand(s1, conn);
+            SqlDataReader rd = cmd.ExecuteReader();
+            int x = 0;
+            while(rd.Read())
+            {
+               
+                //names.Add(rd.GetValue(1).ToString() + " " + rd.GetValue(1).ToString());
+                test[x] = rd.GetValue(1).ToString() + " " + rd.GetValue(2).ToString();
+                x++;
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            snackBar.Add(ex.Message, Severity.Error);
+        }
+        finally
+        {
+            conn.Close();
+            Nomi = test;
+        }
+    }
+
+    public class EmployeeList
+    {
+        public string Names{ get; set; }
+    }
+
 }

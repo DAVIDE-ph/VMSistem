@@ -1,19 +1,22 @@
 ﻿@page "/Scan" 
- @inject IJSRuntime JS;
- @using ReactorBlazorQRCodeScanner;
- @using Microsoft.Data.SqlClient;
- @using VMSistem.Class;
+@inject IJSRuntime JS;
+@using ReactorBlazorQRCodeScanner;
+@using Microsoft.Data.SqlClient;
+@using VMSistem.Class;
+
 <MudOverlay @bind-Visible="isVisible" DarkBackground="true" ZIndex="9999" AutoClose="true" />
+
  <MudGrid Justify="Justify.Center">
      <MudItem>
          <MudText><b>Si prega di scanssionare qr code</b></MudText>
      </MudItem>
-    </MudGrid>
-    <MudGrid Justify="Justify.Center" Style="margin-top:45px;">
-        <MudItem>
-        <QRCodeScanner />
-        </MudItem>
-    </MudGrid>
+ </MudGrid>
+
+ <MudGrid Justify="Justify.Center" Style="margin-top:45px;">
+     <MudItem>
+           <QRCodeScanner />
+     </MudItem>
+ </MudGrid>
     
 
 
@@ -64,10 +67,6 @@
             conn.Close();
 
             navigationManager.NavigateTo("/");
-
-            //Application.Current.MainPage = new MainPage();
-            //Application.Current.MainPage = new MainPage();
-            //await App.Current.MainPage.Navigation.PushAsync(new Esci());
         }
     }
 
